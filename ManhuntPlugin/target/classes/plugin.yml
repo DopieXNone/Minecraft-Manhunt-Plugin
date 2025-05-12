@@ -1,0 +1,10 @@
+name: ManhuntPlugin
+version: '1.0-SNAPSHOT'
+main: it.manhuntpl.ManhuntPlugin
+api-version: '1.21'
+
+commands:
+  manhunt:
+    description: Comando principale per Manhunt (help, create, accept, reject, join, allow, leave, compass)
+    usage: /manhunt <help|create|accept|reject|join|allow|leave|compass follow> [...]
+    aliases: [mh]
