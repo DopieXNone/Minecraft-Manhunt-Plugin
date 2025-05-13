@@ -1,4 +1,4 @@
-# Manhunt plugin for PaperMC / Spigot
+# Manhunt plugin for Spigot
 
 
 **ManhuntPlugin** is a plugin for Minecraft Java Edition that allows you to organize “manhunts” games in your server.
