@@ -1,9 +1,0 @@
-name: ManhuntPlugin
-version: '${project.version}'
-main: it.manhuntpl.ManhuntPlugin
-api-version: '1.21'
-commands:
-  manhunt:
-    description: Main command Manhunt (help, create…)
-    usage: /manhunt <help|create|accept|reject|join|allow|leave|compass follow> [...]
-    aliases: [mh]
