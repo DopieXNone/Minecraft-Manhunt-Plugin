@@ -29,11 +29,11 @@ public class ManhuntPlugin extends JavaPlugin {
             }
         }.runTaskTimer(this, 5L, 5L);
 
-        getLogger().info("ManhuntPlugin abilitato");
+        getLogger().info("ManhuntPlugin enabled");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("ManhuntPlugin disabilitato");
+        getLogger().info("ManhuntPlugin disabled");
     }
 }

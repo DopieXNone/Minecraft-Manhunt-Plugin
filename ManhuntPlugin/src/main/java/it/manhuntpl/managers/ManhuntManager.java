@@ -41,13 +41,13 @@ public class ManhuntManager {
     /** Crea (in pending) una nuova manhunt con 1 survivor e 1 hunter */
     public void createManhunt(String name, String survivor, String hunter, String host) {
         if (pending.containsKey(name) || manhunts.containsKey(name)) {
-            send(host, ChatColor.RED + "Nome manhunt già in uso!");
+            send(host, ChatColor.RED + "Manhunt name already in use!");
             return;
         }
         pending.put(name, new ManhuntCode(name, survivor, hunter, host));
         send(host, ChatColor.GREEN +
                 "Manhunt '" + name +
-                "' creata. Host: conferma con /manhunt accept " + name);
+                "' created. Host: confirm with /manhunt accept " + name);
     }
 
     /** L’host conferma e parte la manhunt */
@@ -55,7 +55,7 @@ public class ManhuntManager {
         ManhuntCode code = pending.get(name);
         if (code == null || !code.getHost().equals(p.getName())) {
             send(p, ChatColor.RED +
-                    "Nessuna manhunt da accettare col tuo nome!");
+                    "No manhunt needed to accept with your name" + "!");
             return;
         }
         pending.remove(name);
@@ -71,7 +71,7 @@ public class ManhuntManager {
         }
 
         manhunts.put(name, mh);
-        broadcast(ChatColor.GOLD + "Manhunt '" + name + "' avviata!");
+        broadcast(ChatColor.GOLD + "Manhunt '" + name + "' started!");
     }
 
     /** L’host annulla la creazione */
@@ -80,10 +80,10 @@ public class ManhuntManager {
         if (code != null && code.getHost().equals(p.getName())) {
             pending.remove(name);
             send(p, ChatColor.YELLOW +
-                    "Manhunt '" + name + "' annullata.");
+                    "Manhunt '" + name + "' cancelled.");
         } else {
             send(p, ChatColor.RED +
-                    "Nessuna manhunt da rifiutare col tuo nome!");
+                    "No manhunt needed to reject with your name!");
         }
     }
 
@@ -98,20 +98,20 @@ public class ManhuntManager {
             if (role.equals("survivor")) code.addSurvivor(p.getName());
             else code.addHunter(p.getName());
             send(p, ChatColor.GREEN +
-                    "Richiesta join pre-accept ricevuta. Host: /manhunt accept " + name);
+                    "Join pre-accept request recived. Host: /manhunt accept " + name);
             return;
         }
         if (!manhunts.containsKey(name)) {
             send(p, ChatColor.RED +
-                    "Nessuna manhunt attiva o in creazione con quel nome!");
+                    "No active manhunt o in creation with that name!");
             return;
         }
         joinRequests
                 .computeIfAbsent(name, k -> new ArrayList<>())
                 .add(new Request(p.getName(), role));
         send(p, ChatColor.GREEN +
-                "Richiesta di unirti come " + role +
-                " inviata all'host di '" + name + "'.");
+                "Request to join to the manhunt " + role +
+                " sent by the host di '" + name + "'.");
     }
 
     /** Host approva una richiesta di join attiva */
@@ -126,7 +126,7 @@ public class ManhuntManager {
                 .map(Map.Entry::getKey)
                 .findFirst().orElse(null);
         if (mhName == null) {
-            send(host, ChatColor.RED + "Non sei host di nessuna manhunt!");
+            send(host, ChatColor.RED + "You aren't the host of any manhunt!");
             return;
         }
 
@@ -135,7 +135,7 @@ public class ManhuntManager {
                 .filter(r -> r.player.equalsIgnoreCase(targetName))
                 .findFirst();
         if (reqOpt.isEmpty()) {
-            send(host, ChatColor.RED + "Nessuna richiesta di join da " + targetName);
+            send(host, ChatColor.RED + "No join requests from " + targetName);
             return;
         }
         Request req = reqOpt.get();
@@ -152,11 +152,11 @@ public class ManhuntManager {
                 giveCompass(req.player);
             }
         }
-        send(host, ChatColor.GOLD + "Richiesta di " + req.player + " approvata.");
+        send(host, ChatColor.GOLD + "Request " + req.player + " approved.");
         Player target = Bukkit.getPlayer(req.player);
         if (target != null && target.isOnline()) {
-            send(target, ChatColor.GREEN + "Sei stato aggiunto a '" + mhName +
-                    "' come " + req.role + "!");
+            send(target, ChatColor.GREEN + "You were added to manhunt '" + mhName +
+                    "' as " + req.role + "!");
         }
         reqs.remove(req);
     }
@@ -182,7 +182,7 @@ public class ManhuntManager {
         String name = p.getName();
         Manhunt mh = getPlayerManhunt(name);
         if (mh == null) {
-            send(p, ChatColor.RED + "Non sei in nessuna manhunt!");
+            send(p, ChatColor.RED + "You aren't in a manhunt!");
             return;
         }
         boolean wasHunter = mh.getHunters().remove(name);
@@ -191,13 +191,13 @@ public class ManhuntManager {
             p.getInventory().remove(Material.COMPASS);
             tracked.remove(name);
         }
-        send(p, ChatColor.YELLOW + "Hai abbandonato la manhunt '" + mh.getName() + "'.");
+        send(p, ChatColor.YELLOW + "You left the manhunt '" + mh.getName() + "'.");
 
         // Se non rimane né survivor né hunter, termina
         if (mh.getSurvivors().isEmpty() || mh.getHunters().isEmpty()) {
             manhunts.remove(mh.getName());
             broadcast(ChatColor.RED +
-                    "Manhunt '" + mh.getName() + "' terminata (giocatori insufficienti).");
+                    "Manhunt '" + mh.getName() + "' ended (insufficient players).");
             // Pulisci compass residue
             for (String h : mh.getHunters()) {
                 Player ph = Bukkit.getPlayer(h);
@@ -211,15 +211,15 @@ public class ManhuntManager {
     public void followTarget(Player p, String survivor) {
         Manhunt mh = getPlayerManhunt(p.getName());
         if (mh == null || !mh.getHunters().contains(p.getName())) {
-            send(p, ChatColor.RED + "Non sei hunter in alcuna manhunt!");
+            send(p, ChatColor.RED + "You aren't an hunter on any manhunt!");
             return;
         }
         if (!mh.getSurvivors().contains(survivor)) {
-            send(p, ChatColor.RED + survivor + " non è survivor in questa manhunt!");
+            send(p, ChatColor.RED + survivor + " is not a survivor in this manhunt!");
             return;
         }
         tracked.put(p.getName(), survivor);
-        send(p, ChatColor.GREEN + "Compass ora traccia " + survivor);
+        send(p, ChatColor.GREEN + "Compass is tracking " + survivor);
     }
 
     /** Task chiamato ogni 5 tick per aggiornare tutte le bussole */
@@ -253,7 +253,7 @@ public class ManhuntManager {
             String nm = ended.get().getKey();
             Manhunt mh = manhunts.remove(nm);
             broadcast(ChatColor.RED +
-                    "Survivor " + died + " è morto: MANHUNT '" + nm + "' TERMINATA!");
+                    "Survivor " + died + " is died: MANHUNT '" + nm + "' TERMINATA!");
             for (String h : mh.getHunters()) {
                 Player ph = Bukkit.getPlayer(h);
                 if (ph != null && ph.isOnline()) ph.getInventory().remove(Material.COMPASS);

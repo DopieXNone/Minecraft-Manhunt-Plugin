@@ -18,7 +18,7 @@ public class ManhuntCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "Solo i giocatori possono usare questo comando.");
+            sender.sendMessage(ChatColor.RED + "Only players use this command.");
             return true;
         }
         Player p = (Player) sender;
@@ -36,7 +36,7 @@ public class ManhuntCommand implements CommandExecutor, TabCompleter {
             case "allow"  -> handleAllow(p, args);
             case "leave"  -> handleLeave(p);
             case "compass"-> handleCompass(p, args);
-            default        -> p.sendMessage(ChatColor.RED + "Sottocomando sconosciuto. Usa /manhunt help.");
+            default        -> p.sendMessage(ChatColor.RED + "unknown command. Usa /manhunt help.");
         }
         return true;
     }
@@ -47,25 +47,25 @@ public class ManhuntCommand implements CommandExecutor, TabCompleter {
         p.sendMessage(ChatColor.DARK_GRAY + "║ " + ChatColor.AQUA + "     M A N H U N T   H E L P     " + ChatColor.DARK_GRAY + "║");
         p.sendMessage(ChatColor.DARK_GRAY + "╠═════════════════════════════╣");
         p.sendMessage(ChatColor.GOLD   + " /manhunt create <Name> <Survivor> <Hunter>");
-        p.sendMessage(ChatColor.GRAY   + "    » Crea e prepara una manhunt");
+        p.sendMessage(ChatColor.GRAY   + "    » Create a manhunt");
         p.sendMessage("");
         p.sendMessage(ChatColor.GOLD   + " /manhunt accept <Name>");
-        p.sendMessage(ChatColor.GRAY   + "    » Avvia la manhunt come host");
+        p.sendMessage(ChatColor.GRAY   + "    » Starts the manhunt as host");
         p.sendMessage("");
         p.sendMessage(ChatColor.GOLD   + " /manhunt reject <Name>");
-        p.sendMessage(ChatColor.GRAY   + "    » Annulla la creazione");
+        p.sendMessage(ChatColor.GRAY   + "    » Cancels the creation");
         p.sendMessage("");
         p.sendMessage(ChatColor.GOLD   + " /manhunt join <Name> <survivor|hunter>");
-        p.sendMessage(ChatColor.GRAY   + "    » Richiedi di unirti (host deve poi /manhunt allow)");
+        p.sendMessage(ChatColor.GRAY   + "    » Asks to join (host must perform: /manhunt allow)");
         p.sendMessage("");
         p.sendMessage(ChatColor.GOLD   + " /manhunt allow <PlayerName>");
-        p.sendMessage(ChatColor.GRAY   + "    » Host approva una richiesta di join");
+        p.sendMessage(ChatColor.GRAY   + "    » Host approves a join request");
         p.sendMessage("");
         p.sendMessage(ChatColor.GOLD   + " /manhunt leave");
-        p.sendMessage(ChatColor.GRAY   + "    » Abbandona la manhunt in corso");
+        p.sendMessage(ChatColor.GRAY   + "    » Leave the manhunt");
         p.sendMessage("");
         p.sendMessage(ChatColor.GOLD   + " /manhunt compass follow <SurvivorName>");
-        p.sendMessage(ChatColor.GRAY   + "    » Imposta la bussola di tracking");
+        p.sendMessage(ChatColor.GRAY   + "    » Sets the tracking compass");
         p.sendMessage(ChatColor.DARK_GRAY + "╚═════════════════════════════╝");
     }
 
@@ -100,7 +100,7 @@ public class ManhuntCommand implements CommandExecutor, TabCompleter {
         }
         String role = a[2].toLowerCase();
         if (!role.equals("survivor") && !role.equals("hunter")) {
-            p.sendMessage(ChatColor.RED + "Il ruolo deve essere 'survivor' o 'hunter'.");
+            p.sendMessage(ChatColor.RED + "The role must be 'survivor' or 'hunter'.");
             return;
         }
         manager.requestJoin(p, a[1], role);
