@@ -1,4 +1,4 @@
-# Manhunt plugin for Spigot
+# Manhunt plugin for SpigotMC and PaperMC
 
 
 **ManhuntPlugin** is a plugin for Minecraft Java Edition that allows you to organize “manhunts” games in your server.
@@ -8,13 +8,15 @@ Originally written for Spigot/Bukkit 1.21.4, this fork is already compatible wit
 
 
 ## Requirements
-- **SpigotMC Server**
-- **Java 17+**
+- **SpigotMC Server** / **PaperMC Server**
+- **Java 17+** (for SpigotMC)
+- **Java 22+** (for PaperMC)
 
 
 ## Installation
-1. Copy the resulting JAR to `plugins/`
-2. Start or restart the server. In the console you should see that the plugin is enabled.
+1. Download the .JAR for your platform,
+2. Copy the .JAR to `plugins/`,
+3. Start or restart the server. In the console you should see that the plugin is enabled.
 
 
 ## Bugs
