@@ -1,0 +1,5 @@
+# Duration in seconds of initial invincibility (0 = disabled)
+initial-invincibility-seconds: 10
+
+# Duration in seconds of the initial countdown (0 = disabled)
+initial-countdown-seconds: 5
