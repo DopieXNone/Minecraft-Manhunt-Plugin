@@ -27,3 +27,6 @@ If you find any bugs report them in this repository.
 1. The plugin will be only updated with small bug fixes and small corrections on the code.
    I'm learning the whole **PaperMC API** so I will make it **PaperMC** exclusive and add some more complex features.
 2. I will try to release the plugin for the new versions as fast as possible 
+
+## Coming soon
+1. **Stopwatch**: a simple stopwatch in the bossfight. 
